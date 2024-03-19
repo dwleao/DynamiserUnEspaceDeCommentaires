@@ -1,61 +1,42 @@
-let myForm = document.getElementById('myForm');
+let myForm = document.getElementById('myForm')
+myForm.addEventListener('submit', function(event) {
+   
+   // Empêche la soumission du formulaire par défaut
+   event.preventDefault();
 
-     
-myForm.addEventListener('submit', function(verifyEmptySpaces) {
-
-     let prenom = document.getElementById('first-name');     
-     let nom = document.getElementById('last-name');
-     let message = document.getElementById('message');
- 
-     if (prenom.value.trim() == "") {
-         let myError = document.getElementById('error-message');
-         myError.style.display = "block";
-         verifyEmptySpaces.preventDefault();
-     }
-     else if (nom.value.trim() == "") {
-        let myError = document.getElementById('error-message');
-        myError.style.display = "block";
-        verifyEmptySpaces.preventDefault();
-     }
-     else if (message.value.trim() == "") {
-        let myError = document.getElementById('error-message');
-        myError.style.display = "block";
-        verifyEmptySpaces.preventDefault();
-     }
-     else {
-        let div = document.createElement("div");
-        let commentList = document.getElementById('comment-list');
-        commentList.appendChild(div);
-        let commentAuthor = document.createTextNode(prenom.value + " " + nom.value);
-        div.appendChild(commentAuthor);
-
-        let p = document.createElement("p");
-        let messageContent = document.createTextNode(message.value)
-        p.appendChild(messageContent);
-        div.appendChild(p);
-
-        verifyEmptySpaces.preventDefault();
-     }
-    })
-
-
-
-    /*else {
-        let myComment = document.createElement("div");
-        let myCommentDiv = document.createElement("div");
-        let commentAuthor = document.createTextNode(prenom.value + "" + nom.value);
-        let commentContent = document.createTextNode(message.value);
-          document.body.appendChild(div);
-        myCommentDiv.appendChild(commentAuthor);
-        commentList.appendChild(myComment);
-        commentList.appendChild(commentContent);
-        let myError = document.getElementById('error-message');
-        myError.style.display = "none";
-        verifyEmptySpaces.preventDefault();
-    }*/
-
-
-
-     
-
+   // Récupération des valeurs du formulaire
+   let firstName = document.getElementById('first-name').value;
+   let lastName = document.getElementById('last-name').value;
+   let message = document.getElementById('message').value;
+      
+   if (firstName && lastName && message) {
+          // Effacer le message d'erreur
+          let myError = document.getElementById('error-message');
+          myError.style.display = "none";
+          // Création du nouvel élément de commentaire
+          let commentElement = document.createElement('div');
+          commentElement.classList.add('flex', 'space-x-4', 'text-sm', 'text-gray-500');
+          commentElement.innerHTML = `
+              <div class="flex-1 py-10 ">
+                  <h3 class="font-medium text-gray-900">${firstName} ${lastName}</h3>
+                  <div class="prose prose-sm mt-4 max-w-none text-gray-500">
+                      <p>${message}</p>
+                  </div>
+              </div>
+          `;
+          
+          // Ajout du nouvel élément à la liste des commentaires
+          document.getElementById('comment-list').appendChild(commentElement);
+          
+          // Effacer les champs du formulaire après l'envoi
+          document.getElementById('first-name').value = '';
+          document.getElementById('last-name').value = '';
+          document.getElementById('message').value = '';
+      } 
+      
+      else {
+          // Afficher un message d'erreur si tous les champs ne sont pas remplis
+          document.getElementById('error-message').style.display = 'block';
+      }
+  });
 
